@@ -18,7 +18,7 @@ public class Brand {
 
     @Id
     @Column(name = "brand_id")
-    private int brandId;
+    private Integer brandId;
 
     @Column(name = "brand_name")
     private String brandName;
@@ -26,8 +26,12 @@ public class Brand {
     @Column(name = "origin_country")
     private String originCountry;
 
-    @Column(name = "description")
+
+    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
+
+    @Column(name = "brand_logo_url")
+    private String brandLogoUrl;
 
     @OneToMany(mappedBy = "brand")
     private List<Product> products;

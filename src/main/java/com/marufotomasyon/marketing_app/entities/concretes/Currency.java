@@ -18,7 +18,7 @@ public class Currency {
 
     @Id
     @Column(name = "currency_id")
-    private int currencyId;
+    private Integer currencyId;
 
     @Column(name = "currency_name")
     private String currencyName;

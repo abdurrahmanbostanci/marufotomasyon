@@ -18,7 +18,7 @@ public class Subcategory {
 
     @Id
     @Column(name = "subcategory_id")
-    private int subcategoryId;
+    private Integer subcategoryId;
 
     @Column(name = "subcategory_name")
     private String subcategoryName;

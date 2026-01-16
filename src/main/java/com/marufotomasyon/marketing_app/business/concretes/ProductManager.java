@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.xml.crypto.Data;
 import java.util.List;
 
 @Service
@@ -29,10 +30,33 @@ public class ProductManager implements ProductService {
     }
 
     @Override
-    public DataResult<List<ProductWithCategoryAndSubcategoryAndBrandDto>> getAll() {
+    public DataResult<List<ProductWithCategoryAndSubcategoryAndBrandDto>> getAll(Integer categoryId,
+                                                                                 Integer subcategoryId,
+                                                                                 List<Integer> brandId) {
         return new SuccessDataResult<List<ProductWithCategoryAndSubcategoryAndBrandDto>>
-                (productDao.getAllProductList(),"Data listelendi");
+                (productDao.getAllProductList(categoryId, subcategoryId, brandId),"Data listelendi");
 
+    }
+
+    @Override
+    public DataResult<List<ProductWithCategoryAndSubcategoryAndBrandDto>> getAllByName(String categoryName,
+                                                                                        String subcategoryName,
+                                                                                        List<String> brandName) {
+        return new SuccessDataResult<List<ProductWithCategoryAndSubcategoryAndBrandDto>>
+                (productDao.getAllProductListByName(categoryName, subcategoryName, brandName),"Data listelendi");
+
+    }
+
+    @Override
+    public DataResult<List<ProductWithCategoryAndSubcategoryAndBrandDto>> getByBrand(int brandId) {
+        return new SuccessDataResult<List<ProductWithCategoryAndSubcategoryAndBrandDto>>
+                (productDao.getByBrand(brandId),"Data listelendi");
+    }
+
+    @Override
+    public DataResult<List<ProductWithCategoryAndSubcategoryAndBrandDto>> getByProductName(String productName) {
+        return new SuccessDataResult<List<ProductWithCategoryAndSubcategoryAndBrandDto>>
+                (productDao.getByProductName(productName), "Data Listelendi");
     }
 
 }

@@ -15,7 +15,7 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
-    private int id;
+    private Integer id;
 
     @Column(name = "product_name")
     private String productName;
@@ -25,6 +25,12 @@ public class Product {
 
     @Column(name = "units_in_stock")
     private int unitsInStock;
+
+    @Column(name = "description", columnDefinition = "TEXT")
+    private String description;
+
+    @Column(name = "image_url", columnDefinition = "TEXT")
+    private String imageUrl;
 
     @ManyToOne()
     @JoinColumn(name = "category_id")
