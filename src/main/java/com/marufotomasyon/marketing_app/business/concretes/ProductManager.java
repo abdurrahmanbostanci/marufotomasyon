@@ -10,6 +10,7 @@ import com.marufotomasyon.marketing_app.entities.concretes.Product;
 import com.marufotomasyon.marketing_app.entities.dtos.ProductWithCategoryAndSubcategoryAndBrandDto;
 import com.marufotomasyon.marketing_app.entities.dtos.ProductWithCategoryDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -30,11 +31,21 @@ public class ProductManager implements ProductService {
     }
 
     @Override
-    public DataResult<List<ProductWithCategoryAndSubcategoryAndBrandDto>> getAll(Integer categoryId,
+    public DataResult<Page<ProductWithCategoryAndSubcategoryAndBrandDto>> getAll(Integer categoryId,
                                                                                  Integer subcategoryId,
-                                                                                 List<Integer> brandId) {
+                                                                                 List<Integer> brandId,
+                                                                                 Pageable pageable) {
+        return new SuccessDataResult<Page<ProductWithCategoryAndSubcategoryAndBrandDto>>
+                (productDao.getAllProductList(categoryId, subcategoryId, brandId, pageable),"Data listelendi");
+
+    }
+
+    @Override
+    public DataResult<List<ProductWithCategoryAndSubcategoryAndBrandDto>> getAllWithoutPages(Integer categoryId,
+                                                                                             Integer subcategoryId,
+                                                                                             List<Integer> brandId) {
         return new SuccessDataResult<List<ProductWithCategoryAndSubcategoryAndBrandDto>>
-                (productDao.getAllProductList(categoryId, subcategoryId, brandId),"Data listelendi");
+                (productDao.getAllProductWithoutPages(categoryId, subcategoryId, brandId),"Data listelendi");
 
     }
 

@@ -5,15 +5,22 @@ import com.marufotomasyon.marketing_app.core.results.Result;
 import com.marufotomasyon.marketing_app.entities.concretes.Product;
 import com.marufotomasyon.marketing_app.entities.dtos.ProductWithCategoryAndSubcategoryAndBrandDto;
 import com.marufotomasyon.marketing_app.entities.dtos.ProductWithCategoryDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import javax.xml.crypto.Data;
 import java.util.List;
 
 public interface ProductService {
 
-    DataResult<List<ProductWithCategoryAndSubcategoryAndBrandDto>> getAll(Integer categoryId,
+    DataResult<Page<ProductWithCategoryAndSubcategoryAndBrandDto>> getAll(Integer categoryId,
                                                                           Integer subcategoryId,
-                                                                          List<Integer> brandId);
+                                                                          List<Integer> brandId,
+                                                                          Pageable pageable);
+
+    DataResult<List<ProductWithCategoryAndSubcategoryAndBrandDto>> getAllWithoutPages(Integer categoryId,
+                                                                                      Integer subcategoryId,
+                                                                                      List<Integer> brandId);
 
     DataResult<List<ProductWithCategoryAndSubcategoryAndBrandDto>> getAllByName(String categoryName,
                                                                                  String subcategoryName,

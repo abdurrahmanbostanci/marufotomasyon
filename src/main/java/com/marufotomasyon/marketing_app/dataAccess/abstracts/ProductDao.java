@@ -3,6 +3,8 @@ package com.marufotomasyon.marketing_app.dataAccess.abstracts;
 import com.marufotomasyon.marketing_app.entities.concretes.Product;
 import com.marufotomasyon.marketing_app.entities.dtos.ProductWithCategoryAndSubcategoryAndBrandDto;
 import com.marufotomasyon.marketing_app.entities.dtos.ProductWithCategoryDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -36,9 +38,42 @@ public interface ProductDao extends JpaRepository<Product,Integer>{
     WHERE (:categoryId IS NULL OR cat.categoryId = :categoryId)
         AND (:subcategoryId IS NULL OR s.subcategoryId = :subcategoryId)
         AND (:brandId IS NULL OR b.brandId IN :brandId)
+    """)
+    Page<ProductWithCategoryAndSubcategoryAndBrandDto> getAllProductList(
+            @Param("categoryId") Integer categoryId,
+            @Param("subcategoryId") Integer subcategoryId,
+            @Param("brandId") List<Integer> brandId,
+            Pageable pageable
+    );
+
+    @Query("""
+    SELECT new com.marufotomasyon.marketing_app.entities.dtos.ProductWithCategoryAndSubcategoryAndBrandDto(
+        p.id,
+        p.productName,
+        cat.categoryId,
+        cat.categoryName,
+        s.subcategoryId,
+        s.subcategoryName,
+        b.brandId,
+        b.brandName,
+        cur.currencySymbol,
+        cur.abbreviation,
+        p.unitPrice,
+        p.unitsInStock,
+        p.description,
+        p.imageUrl
+    )
+    FROM Product p
+    JOIN p.category cat
+    JOIN p.subcategory s
+    JOIN p.brand b
+    JOIN p.currency cur
+    WHERE (:categoryId IS NULL OR cat.categoryId = :categoryId)
+        AND (:subcategoryId IS NULL OR s.subcategoryId = :subcategoryId)
+        AND (:brandId IS NULL OR b.brandId IN :brandId)
     ORDER BY p.id ASC
     """)
-    List<ProductWithCategoryAndSubcategoryAndBrandDto> getAllProductList(
+    List<ProductWithCategoryAndSubcategoryAndBrandDto> getAllProductWithoutPages(
             @Param("categoryId") Integer categoryId,
             @Param("subcategoryId") Integer subcategoryId,
             @Param("brandId") List<Integer> brandId

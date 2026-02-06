@@ -2,9 +2,11 @@ package com.marufotomasyon.marketing_app.api.controllers;
 
 import com.marufotomasyon.marketing_app.business.abstracts.ProductService;
 import com.marufotomasyon.marketing_app.core.results.DataResult;
-import com.marufotomasyon.marketing_app.entities.concretes.Brand;
-import com.marufotomasyon.marketing_app.entities.concretes.Product;
 import com.marufotomasyon.marketing_app.entities.dtos.ProductWithCategoryAndSubcategoryAndBrandDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,10 +24,19 @@ public class ProductsController {
     }
 
     @GetMapping("/getall")
-    public DataResult<List<ProductWithCategoryAndSubcategoryAndBrandDto>> getAll(@RequestParam(required = false) Integer categoryId,
+    public DataResult<Page<ProductWithCategoryAndSubcategoryAndBrandDto>> getAll(@RequestParam(required = false) Integer categoryId,
                                                                                  @RequestParam(required = false) Integer subcategoryId,
-                                                                                 @RequestParam(required = false) List<Integer> brandId) {
-        return productService.getAll(categoryId, subcategoryId, brandId);
+                                                                                 @RequestParam(required = false) List<Integer> brandId,
+                                                                                 @PageableDefault(page= 0, size = 20, sort = "p.id", direction = Sort.Direction.ASC)
+                                                                                 Pageable pageable) {
+        return productService.getAll(categoryId, subcategoryId, brandId, pageable);
+    }
+
+    @GetMapping("/getallwithoutpages")
+    public DataResult<List<ProductWithCategoryAndSubcategoryAndBrandDto>> getAllWithoutPages(@RequestParam(required = false) Integer categoryId,
+                                                                                             @RequestParam(required = false) Integer subcategoryId,
+                                                                                             @RequestParam(required = false) List<Integer> brandId) {
+        return productService.getAllWithoutPages(categoryId, subcategoryId, brandId);
     }
 
     @GetMapping("/getallbyname")
